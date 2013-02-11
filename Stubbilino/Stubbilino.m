@@ -67,6 +67,12 @@ static void SBRemoveStubClass(id object, void *context) {
         return (id<SBStub>)object;
     }
 
+    const char *className = class_getName(object_getClass(object));
+	if (strncmp(className, "NSCF", 4) == 0 || strncmp(className, "__NSCF", 6) == 0) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"Can not stub toll free bridged object of class: %s", className];
+	}
+
     NSString *name = [Stubbilino nameOfStub:object_getClass(object)];
 
     Class stubClass = objc_allocateClassPair(object_getClass(object), name.UTF8String, 0);
