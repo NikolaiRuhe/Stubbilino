@@ -55,6 +55,16 @@ describe(@"A stub", ^{
         expect(stubbedObject).to.beKindOf(SBTestObject.class);
     });
 
+    it(@"should raise an exception if the stubbed object is a toll free bridged Core Foundation object", ^{
+        expect(^{
+            @autoreleasepool {
+                NSNumber *one = @1;
+                SBTestObject<SBStub> *stubbedString = [Stubbilino stubObject:one];
+                [Stubbilino unstubObject:stubbedString];
+            }
+        }).to.raise(NSInvalidArgumentException);
+    });
+
     it(@"cannot be stubbed twice", ^{
         Class stubbedClass = stubbedObject.class;
 
