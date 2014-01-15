@@ -63,6 +63,8 @@ static void SBRemoveStubClass(id object, void *context) {
 
 + (id<SBStub>)stubObject:(NSObject *)object
 {
+	NSParameterAssert(object != nil);
+
     if (CFSetContainsValue(Stubbilino.stubbedObjects, (__bridge const void *)object)) {
         return (id<SBStub>)object;
     }
